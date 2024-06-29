@@ -48,7 +48,7 @@ export const Landing = () => {
           <div></div>
         </Grid>
         <Grid item xs={12} md={6} lg={6} style={{ marginTop: 20 }}>
-          <img src={"/class.jpeg"} width={"100%"} />
+          <img src={"/image.jpg"} width={"100%"} />
         </Grid>
       </Grid>
     </div>
