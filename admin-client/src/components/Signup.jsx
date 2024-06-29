@@ -62,12 +62,10 @@ function Signup() {
               });
               let data = response.data;
               localStorage.setItem("token", data.token);
-              // window.location = "/"
               setUser({ userEmail: email, isLoading: false });
               navigate("/courses");
             }}
           >
-            {" "}
             Signup
           </Button>
         </Card>
