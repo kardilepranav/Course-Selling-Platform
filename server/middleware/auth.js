@@ -3,7 +3,6 @@ const SECRET = "SECr3t"; // This should be in an environment variable in a real 
 
 const authenticateJwt = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
   if (authHeader) {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, SECRET, (err, user) => {
@@ -18,7 +17,18 @@ const authenticateJwt = (req, res, next) => {
   }
 };
 
+const authorizeRole = (roles) => {
+  return (req, res, next) => {
+		if (roles.includes(req.user.role)) {
+			next();
+    } else {
+			res.status(403).json({ message: 'Forbidden' });
+		}
+	};
+};
+
 module.exports = {
   authenticateJwt,
+  authorizeRole,
   SECRET,
 };

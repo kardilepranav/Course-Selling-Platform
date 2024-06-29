@@ -185,7 +185,6 @@ function UpdateCard() {
 						<Button
 							variant='contained'
               onClick={() => {
-                console.log(courseId);
 								const res = axios.delete(
 									`${BASE_URL}/admin/remove-course/${courseId}`,
 									{
