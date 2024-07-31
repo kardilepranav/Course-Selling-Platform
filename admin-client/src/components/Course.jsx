@@ -13,6 +13,7 @@ import {
 	isCourseLoading,
 	courseImage,
 } from '../store/selectors/course';
+import Appbar from './Appbar.jsx';
 
 function Course() {
 	let { courseId } = useParams();
@@ -20,20 +21,23 @@ function Course() {
 	const courseLoading = useRecoilValue(isCourseLoading);
 
 	useEffect(() => {
-		axios
-			.get(`${BASE_URL}/admin/course/${courseId}`, {
-				method: 'GET',
-				headers: {
-					Authorization: 'Bearer ' + localStorage.getItem('token'),
-				},
-			})
-			.then((res) => {
-				setCourse({ isLoading: false, course: res.data.course });
-			})
-			.catch((e) => {
-				setCourse({ isLoading: false, course: null });
-			});
-	}, []);
+		const fetchCourse = async () => {
+			await axios
+				.get(`${BASE_URL}/admin/course/${courseId}`, {
+					method: 'GET',
+					headers: {
+						Authorization: 'Bearer ' + localStorage.getItem('token'),
+					},
+				})
+				.then((res) => {
+					setCourse({ isLoading: false, adminCourse: res.data.course });
+				})
+				.catch((e) => {
+					setCourse({ isLoading: false, adminCourse: null });
+				});
+		};
+		fetchCourse();
+	}, [courseId, setCourse]);
 
 	if (courseLoading) {
 		return <Loading />;
@@ -41,6 +45,7 @@ function Course() {
 
 	return (
 		<div>
+			<Appbar />
 			<GrayTopper />
 			<Grid container>
 				<Grid item lg={8} md={12} sm={12}>
@@ -90,16 +95,24 @@ function GrayTopper() {
 }
 
 function UpdateCard() {
-  let { courseId } = useParams();
-  const navigate = useNavigate();
+	let { courseId } = useParams();
+	const navigate = useNavigate();
 	const [courseDetails, setCourse] = useRecoilState(courseState);
-
-	const [title, setTitle] = useState(courseDetails.course.title);
+	const [title, setTitle] = useState(courseDetails.adminCourse.title);
 	const [description, setDescription] = useState(
-		courseDetails.course.description
+		courseDetails.adminCourse.description
 	);
-	const [image, setImage] = useState(courseDetails.course.imageLink);
-	const [price, setPrice] = useState(courseDetails.course.price);
+	const [image, setImage] = useState(courseDetails.adminCourse.imageLink);
+	const [price, setPrice] = useState(courseDetails.adminCourse.price);
+
+	useEffect(() => {
+		if (courseDetails.adminCourse) {
+			setTitle(courseDetails.adminCourse.title);
+			setDescription(courseDetails.adminCourse.description);
+			setImage(courseDetails.adminCourse.imageLink);
+			setPrice(courseDetails.adminCourse.price);
+		}
+	}, [courseDetails]);
 
 	return (
 		<div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -155,7 +168,7 @@ function UpdateCard() {
 							variant='contained'
 							onClick={async () => {
 								axios.put(
-									`${BASE_URL}/admin/courses/` + courseDetails.course._id,
+									`${BASE_URL}/admin/courses/` + courseDetails.adminCourse._id,
 									{
 										title: title,
 										description: description,
@@ -171,30 +184,29 @@ function UpdateCard() {
 									}
 								);
 								let updatedCourse = {
-									_id: courseDetails.course._id,
+									_id: courseDetails.adminCourse._id,
 									title: title,
 									description: description,
 									imageLink: image,
 									price,
 								};
-								setCourse({ course: updatedCourse, isLoading: false });
+								setCourse({ adminCourse: updatedCourse, isLoading: false });
 							}}
 						>
 							Update course
 						</Button>
 						<Button
 							variant='contained'
-              onClick={() => {
-								const res = axios.delete(
-									`${BASE_URL}/admin/remove-course/${courseId}`,
-									{
+							onClick={() => {
+								const res = axios
+									.delete(`${BASE_URL}/admin/remove-course/${courseId}`, {
 										headers: {
 											Authorization: 'Bearer ' + localStorage.getItem('token'),
 										},
-									}
-                ).then((res) => {
-                  navigate('/courses');
-                })
+									})
+									.then((res) => {
+										navigate('/courses');
+									});
 							}}
 						>
 							REMOVE COURSE

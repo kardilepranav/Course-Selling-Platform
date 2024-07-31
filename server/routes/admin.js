@@ -28,7 +28,7 @@ router.post('/signup', async(req, res) => {
 	const { username, password } = req.body;
 	const admin = await Admin.findOne({ username });
 	if (admin) {
-		res.status(403).json({ message: 'Admin already exists' });
+		return res.status(403).json({ message: 'Admin already exists' });
 	} else {
 		const hashedPassword = bcrypt.hashSync(password, 10)
 		const obj = { username: username, password: hashedPassword };
@@ -46,11 +46,11 @@ router.post('/login', async (req, res) => {
 	const { username, password } = req.body;
 	const admin = await Admin.findOne({ username });
 	if (!admin) {
-		res.status(403).json({ message: 'Invalid username or password' });
+		return res.status(403).json({ message: 'Invalid username or password' });
 	}
 	const validPassword = bcrypt.compareSync(password, admin.password)
 	if (!validPassword) {
-		res.status(403).json({ message: 'Invalid username or password' });
+		return res.status(403).json({ message: 'Invalid username or password' });
 	}
 	delete req.body.password
 	const token = jwt.sign({ username, role: 'admin' }, SECRET, {

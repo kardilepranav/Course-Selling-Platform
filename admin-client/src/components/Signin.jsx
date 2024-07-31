@@ -7,6 +7,7 @@ import { BASE_URL } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { adminState } from '../store/atoms/admin.js';
+import Appbar from './Appbar.jsx';
 
 function Signin() {
 	const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ function Signin() {
 
 	return (
 		<div>
+			<Appbar />
 			<div
 				style={{
 					paddingTop: 150,
