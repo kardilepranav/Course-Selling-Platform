@@ -7,8 +7,9 @@ import { BASE_URL } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { adminState } from '../store/atoms/admin.js';
+import UserAppbar from './UserAppbar.jsx';
 
-function Signin() {
+function UserSignup() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
@@ -16,6 +17,7 @@ function Signin() {
 
 	return (
 		<div>
+			<UserAppbar/>
 			<div
 				style={{
 					paddingTop: 150,
@@ -25,15 +27,14 @@ function Signin() {
 				}}
 			>
 				<Typography variant={'h6'}>
-					Welcome to Coursera. Sign in below
+					Welcome to Coursera. Sign up below
 				</Typography>
 			</div>
 			<div style={{ display: 'flex', justifyContent: 'center' }}>
 				<Card varint={'outlined'} style={{ width: 400, padding: 20 }}>
 					<TextField
 						onChange={(event) => {
-							let elemt = event.target;
-							setEmail(elemt.value);
+							setEmail(event.target.value);
 						}}
 						fullWidth={true}
 						label='Email'
@@ -57,22 +58,17 @@ function Signin() {
 						size={'large'}
 						variant='contained'
 						onClick={async () => {
-							const res = await axios.post(`${BASE_URL}/admin/login`, {
+							const response = await axios.post(`${BASE_URL}/user/signup`, {
 								username: email,
 								password: password,
 							});
-							console.log(res);
-							const data = res.data;
-
+							let data = response.data;
 							localStorage.setItem('token', data.token);
-							setAdmin({
-								adminEmail: email,
-								isLoading: false,
-							});
+							setAdmin({ adminEmail: email, isLoading: false });
 							navigate('/courses');
 						}}
 					>
-						Signin
+						Signup
 					</Button>
 				</Card>
 			</div>
@@ -80,4 +76,4 @@ function Signin() {
 	);
 }
 
-export default Signin;
+export default UserSignup;
