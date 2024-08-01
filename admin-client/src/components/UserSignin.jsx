@@ -6,14 +6,14 @@ import axios from 'axios';
 import { BASE_URL } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { adminState } from '../store/atoms/admin.js';
+import { userState } from '../store/atoms/user.js';
 import UserAppbar from './UserAppbar.jsx';
 
 function UserSignin() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	const setAdmin = useSetRecoilState(adminState);
+	const setUser = useSetRecoilState(userState);
 
 	return (
 		<div>
@@ -59,19 +59,18 @@ function UserSignin() {
 						size={'large'}
 						variant='contained'
 						onClick={async () => {
-							const res = await axios.post(`${BASE_URL}/admin/login`, {
+							const res = await axios.post(`${BASE_URL}/user/login`, {
 								username: email,
 								password: password,
 							});
-							console.log(res);
 							const data = res.data;
 
 							localStorage.setItem('token', data.token);
-							setAdmin({
-								adminEmail: email,
+							setUser({
+								userEmail: email,
 								isLoading: false,
 							});
-							navigate('/courses');
+							navigate('/user-courses');
 						}}
 					>
 						Signin

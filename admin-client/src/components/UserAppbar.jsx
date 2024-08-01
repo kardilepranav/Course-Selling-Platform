@@ -1,22 +1,22 @@
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { isAdminLoading } from '../store/selectors/isAdminLoading.js';
+import { isUserLoading } from '../store/selectors/isUserLoading.js';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { adminState } from '../store/atoms/admin.js';
-import { adminEmailState } from '../store/selectors/adminEmail.js';
+import { userState } from '../store/atoms/user.js';
+import { userEmailState } from '../store/selectors/userEmail.js';
 
 function UserAppbar() {
   const navigate = useNavigate();
-	const adminLoading = useRecoilValue(isAdminLoading);
-	const adminEmail = useRecoilValue(adminEmailState);
-	const setAdmin = useSetRecoilState(adminState);
+	const userLoading = useRecoilValue(isUserLoading);
+	const userEmail = useRecoilValue(userEmailState);
+	const setUser = useSetRecoilState(userState);
 
-	if (adminLoading) {
+	if (userLoading) {
 		return <></>;
 	}
 
-	if (adminEmail) {
+	if (userEmail) {
 		return (
 			<div
 				style={{
@@ -40,20 +40,20 @@ function UserAppbar() {
 						<div style={{ marginRight: 10 }}>
 							<Button
 								onClick={() => {
-									navigate('/addcourse');
+									navigate('/buy-courses');
 								}}
 							>
-								Add course
+								Buy Courses
 							</Button>
 						</div>
 
 						<div style={{ marginRight: 10 }}>
 							<Button
 								onClick={() => {
-									navigate('/courses');
+									navigate('/user-courses');
 								}}
 							>
-								Courses
+								My Courses
 							</Button>
 						</div>
 
@@ -61,9 +61,9 @@ function UserAppbar() {
 							variant={'contained'}
 							onClick={() => {
 								localStorage.setItem('token', null);
-								setAdmin({
+								setUser({
 									isLoading: false,
-									adminEmail: null,
+									userEmail: null,
 								});
 								navigate('/');
 							}}

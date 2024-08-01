@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken')
 const {
 	authenticateJwt,
 	SECRET,
@@ -12,13 +13,13 @@ router.get(
 	authenticateJwt,
 	authorizeRole(['user']),
 	async (req, res) => {
-		const admin = await Admin.findOne({ username: req.user.username });
-		if (!admin) {
+		const user = await Admin.findOne({ username: req.user.username });
+		if (!user) {
 			res.status(403).json({ msg: 'Admin doesnt exist' });
 			return;
 		}
 		res.json({
-			username: admin.username,
+			username: user.username,
 		});
 	}
 );
@@ -39,7 +40,7 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-	const { username, password } = req.headers;
+	const { username, password } = req.body;
 	const user = await User.findOne({ username, password });
 	if (user) {
 		const token = jwt.sign({ username, role: 'user' }, SECRET, {
@@ -67,7 +68,6 @@ router.post(
 	authorizeRole(['user']),
 	async (req, res) => {
 		const course = await Course.findById(req.params.courseId);
-		console.log(course);
 		if (course) {
 			const user = await User.findOne({ username: req.user.username });
 			if (user) {

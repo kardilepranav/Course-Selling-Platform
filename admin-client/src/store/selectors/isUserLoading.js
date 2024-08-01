@@ -1,7 +1,7 @@
 import { userState } from '../atoms/user';
 import { selector } from 'recoil';
 
-export const userLoadingState = selector({
+export const isUserLoading = selector({
 	key: 'userLoadingState',
 	get: ({ get }) => {
 		const state = get(userState);
