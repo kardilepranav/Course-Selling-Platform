@@ -25,7 +25,7 @@ function App() {
 				style={{ width: '100vw', height: '100vh', backgroundColor: '#eeeeee' }}
 			>
 				<Router>
-          <InitAdmin />
+          {/* <InitAdmin /> */}
           <InitUser />
 					<Routes>
 						<Route path={'/addcourse'} element={<AddCourse />} />

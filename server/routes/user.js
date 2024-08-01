@@ -45,7 +45,7 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 	const { username, password } = req.body;
-	const user = await Admin.findOne({ username });
+	const user = await User.findOne({ username });
 	if (!user) {
 		return res.status(403).json({ message: 'Invalid username or password' });
 	}
@@ -78,6 +78,9 @@ router.post(
 		const course = await Course.findById(req.params.courseId);
 		if (course) {
 			const user = await User.findOne({ username: req.user.username });
+			if (user.purchasedCourses.includes(course._id)) {
+				return res.status(207).json({ message: 'Course have been already purchased' })
+			}
 			if (user) {
 				user.purchasedCourses.push(course);
 				await user.save();
