@@ -6,14 +6,14 @@ import axios from 'axios';
 import { BASE_URL } from '../config.js';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { adminState } from '../store/atoms/admin.js';
+import { userState } from '../store/atoms/user.js';
 import UserAppbar from './UserAppbar.jsx';
 
 function UserSignup() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	const setAdmin = useSetRecoilState(adminState);
+	const setUser = useSetRecoilState(userState);
 
 	return (
 		<div>
@@ -64,8 +64,8 @@ function UserSignup() {
 							});
 							let data = response.data;
 							localStorage.setItem('token', data.token);
-							setAdmin({ adminEmail: email, isLoading: false });
-							navigate('/courses');
+							setUser({ userEmail: email, isLoading: false });
+							navigate('/user-courses');
 						}}
 					>
 						Signup

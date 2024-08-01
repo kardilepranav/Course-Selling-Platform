@@ -1,5 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 const {
 	authenticateJwt,
 	SECRET,
@@ -30,26 +31,33 @@ router.post('/signup', async (req, res) => {
 	if (user) {
 		res.status(403).json({ message: 'User already exists' });
 	} else {
-		const newUser = new User({ username, password });
-		await newUser.save();
+		const hashedPassword = bcrypt.hashSync(password, 10)
+		const obj = { username: username, password: hashedPassword };
+		const newUser = new User(obj);
+		delete req.body.password
+		newUser.save();
 		const token = jwt.sign({ username, role: 'user' }, SECRET, {
 			expiresIn: '1h',
-		});
+		})
 		res.json({ message: 'User created successfully', token });
 	}
 });
 
 router.post('/login', async (req, res) => {
 	const { username, password } = req.body;
-	const user = await User.findOne({ username, password });
-	if (user) {
-		const token = jwt.sign({ username, role: 'user' }, SECRET, {
-			expiresIn: '1h',
-		});
-		res.json({ message: 'Logged in successfully', token });
-	} else {
-		res.status(403).json({ message: 'Invalid username or password' });
+	const user = await Admin.findOne({ username });
+	if (!user) {
+		return res.status(403).json({ message: 'Invalid username or password' });
 	}
+	const validPassword = bcrypt.compareSync(password, user.password);
+	if (!validPassword) {
+		return res.status(403).json({ message: 'Invalid username or password' });
+	}
+	delete req.body.password;
+	const token = jwt.sign({ username, role: 'user' }, SECRET, {
+		expiresIn: '1h',
+	});
+	res.json({ message: 'Logged in successfully', token });
 });
 
 router.get(
