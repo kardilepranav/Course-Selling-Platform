@@ -16,11 +16,12 @@ router.get(
 	async (req, res) => {
 		const user = await Admin.findOne({ username: req.user.username });
 		if (!user) {
-			res.status(403).json({ msg: 'Admin doesnt exist' });
+			res.status(403).json({ msg: 'User doesnt exist' });
 			return;
 		}
 		res.json({
 			username: user.username,
+			role: ['user'],
 		});
 	}
 );

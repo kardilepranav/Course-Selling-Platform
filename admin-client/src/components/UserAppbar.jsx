@@ -98,7 +98,7 @@ function UserAppbar() {
 						<Button
 							variant={'contained'}
 							onClick={() => {
-								navigate('/user/signup');
+								navigate('/user-signup');
 							}}
 						>
 							Signup
@@ -108,7 +108,7 @@ function UserAppbar() {
 						<Button
 							variant={'contained'}
 							onClick={() => {
-								navigate('/user/signin');
+								navigate('/user-signin');
 							}}
 						>
 							Signin

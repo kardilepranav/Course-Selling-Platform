@@ -27,7 +27,7 @@ export const AdminLanding = () => {
 										size={'large'}
 										variant={'contained'}
 										onClick={() => {
-											navigate('/admin/signup');
+											navigate('/admin-signup');
 										}}
 									>
 										Signup
@@ -38,7 +38,7 @@ export const AdminLanding = () => {
 										size={'large'}
 										variant={'contained'}
 										onClick={() => {
-											navigate('/admin/signin');
+											navigate('/admin-signin');
 										}}
 									>
 										Signin

@@ -2,14 +2,14 @@ import { Grid, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { adminEmailState } from '../store/selectors/adminEmail.js';
-import { isAdminLoading } from '../store/selectors/isAdminLoading.js';
+import { userEmailState } from '../store/selectors/userEmail.js';
+import { isUserLoading } from '../store/selectors/isUserLoading.js';
 import UserAppbar from './UserAppbar.jsx';
 
 function UserLanding() {
 	const navigate = useNavigate();
-	const adminEmail = useRecoilValue(adminEmailState);
-	const adminLoading = useRecoilValue(isAdminLoading);
+	const userEmail = useRecoilValue(userEmailState);
+	const userLoading = useRecoilValue(isUserLoading);
 	return (
 		<div>
 			<UserAppbar/>
@@ -20,14 +20,14 @@ function UserLanding() {
 						<Typography variant={'h5'}>
 							A place to learn, earn and grow
 						</Typography>
-						{!adminLoading && !adminEmail && (
+						{!userLoading && !userEmail && (
 							<div style={{ display: 'flex', marginTop: 20 }}>
 								<div style={{ marginRight: 10 }}>
 									<Button
 										size={'large'}
 										variant={'contained'}
 										onClick={() => {
-											navigate('/user/signup');
+											navigate('/user-signup');
 										}}
 									>
 										Signup
@@ -38,7 +38,7 @@ function UserLanding() {
 										size={'large'}
 										variant={'contained'}
 										onClick={() => {
-											navigate('/user/signin');
+											navigate('/user-signin');
 										}}
 									>
 										Signin

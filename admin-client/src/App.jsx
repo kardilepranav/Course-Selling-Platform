@@ -25,16 +25,16 @@ function App() {
 				style={{ width: '100vw', height: '100vh', backgroundColor: '#eeeeee' }}
 			>
 				<Router>
-          {/* <InitAdmin /> */}
+          <InitAdmin />
           <InitUser />
 					<Routes>
 						<Route path={'/addcourse'} element={<AddCourse />} />
 						<Route path={'/course/:courseId'} element={<Course />} />
 						<Route path={'/courses'} element={<Courses />} />
-						<Route path={'/admin/signin'} element={<Signin />} />
-						<Route path={'/admin/signup'} element={<Signup />} />
-						<Route path={'/user/signup'} element={<UserSignup />} />
-						<Route path={'/user/signin'} element={<UserSignin />} />
+						<Route path={'/admin-signin'} element={<Signin />} />
+						<Route path={'/admin-signup'} element={<Signup />} />
+						<Route path={'/user-signup'} element={<UserSignup />} />
+						<Route path={'/user-signin'} element={<UserSignin />} />
 						<Route path={'/adminLanding'} element={<AdminLanding />} />
 						<Route path={'/userLanding'} element={<UserLanding />} />
 						<Route path={'/user-courses'} element={<UserCourses />} />
@@ -101,7 +101,7 @@ function InitUser() {
 			} else {
 				setUser({
 					isLoading: false,
-					adminEmail: null,
+					userEmail: null,
 				});
 			}
 		} catch (e) {

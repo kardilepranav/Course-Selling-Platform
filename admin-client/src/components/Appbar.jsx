@@ -98,7 +98,7 @@ function Appbar() {
             <Button
               variant={"contained"}
               onClick={() => {
-                navigate('/admin/signup');
+                navigate('/admin-signup');
               }}
             >
               Signup
@@ -108,7 +108,7 @@ function Appbar() {
             <Button
               variant={"contained"}
               onClick={() => {
-                navigate('/admin/signin');
+                navigate('/admin-signin');
               }}
             >
               Signin
