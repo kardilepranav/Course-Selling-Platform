@@ -71,7 +71,7 @@ function Signin() {
 								adminEmail: email,
 								isLoading: false,
 							});
-							navigate('/courses');
+							navigate('/adminLanding');
 						}}
 					>
 						Signin

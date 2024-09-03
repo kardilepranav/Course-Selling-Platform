@@ -85,7 +85,7 @@ function InitAdmin() {
 
 function InitUser() {
 	const setUser = useSetRecoilState(userState);
-	const set = async () => {
+	const init = async () => {
 		try {
 			const response = await axios.get(`${BASE_URL}/user/me`, {
 				headers: {
@@ -113,7 +113,7 @@ function InitUser() {
 	};
 
 	useEffect(() => {
-		set();
+		init();
 	}, []);
 
 	return <></>;

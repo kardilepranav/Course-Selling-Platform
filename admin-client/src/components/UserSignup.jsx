@@ -65,7 +65,7 @@ function UserSignup() {
 							let data = response.data;
 							localStorage.setItem('token', data.token);
 							setUser({ userEmail: email, isLoading: false });
-							navigate('/user-courses');
+							navigate('/userLanding');
 						}}
 					>
 						Signup

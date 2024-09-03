@@ -65,7 +65,7 @@ function Signup() {
 							let data = response.data;
 							localStorage.setItem('token', data.token);
 							setAdmin({ adminEmail: email, isLoading: false });
-							navigate('/courses');
+							navigate('/adminLanding');
 						}}
 					>
 						Signup

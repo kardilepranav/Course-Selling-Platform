@@ -70,7 +70,7 @@ function UserSignin() {
 								userEmail: email,
 								isLoading: false,
 							});
-							navigate('/user-courses');
+							navigate('/userLanding');
 						}}
 					>
 						Signin

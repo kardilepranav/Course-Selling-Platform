@@ -6,7 +6,7 @@ const {
 	SECRET,
 	authorizeRole,
 } = require('../middleware/auth');
-const { User, Course, Admin } = require('../db');
+const { User, Course } = require('../db');
 const router = express.Router();
 
 router.get(
@@ -14,7 +14,7 @@ router.get(
 	authenticateJwt,
 	authorizeRole(['user']),
 	async (req, res) => {
-		const user = await Admin.findOne({ username: req.user.username });
+		const user = await User.findOne({ username: req.user.username });
 		if (!user) {
 			res.status(403).json({ msg: 'User doesnt exist' });
 			return;

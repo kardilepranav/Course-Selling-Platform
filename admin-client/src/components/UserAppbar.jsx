@@ -29,7 +29,7 @@ function UserAppbar() {
 				<div
 					style={{ marginLeft: 10, cursor: 'pointer' }}
 					onClick={() => {
-						navigate('/');
+						navigate('/userLanding');
 					}}
 				>
 					<Typography variant={'h6'}>Coursera</Typography>
